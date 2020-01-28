@@ -1,0 +1,40 @@
+body {
+  margin: 0px;
+}
+
+button {
+  padding: 0px;
+  background-color: white;
+  border: none;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+#chart {
+  width: 100%;
+  flex: 1;
+}
+
+#controls {
+  flex: 0;
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+}
+
+.button {
+  padding: 16px;
+  border: 1px solid black;
+  border-radius: 4px;
+  flex: 0;
+  background: #CCC;
+}
+
+.active {
+  background: #FFF;
+}

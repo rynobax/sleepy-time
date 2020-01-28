@@ -1,0 +1,20 @@
+{
+  "name": "sleepy-time",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "Ryan Baxley <ryan.baxley1@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "parcel build src/index.html",
+    "data": "node scripts/getData.js",
+    "dev": "parcel src/index.html",
+    "deploy": "yarn run data && yarn run build"
+  },
+  "dependencies": {
+    "axios": "^0.19.1",
+    "dotenv": "^8.2.0",
+    "moment": "^2.24.0",
+    "parcel-bundler": "^1.12.4"
+  }
+}
