@@ -1,4 +1,4 @@
-name: Trigger Netlify Build
+name: trigger-netlify-build
 on:
   schedule:
     - cron: '0 19 * * *' # At 1pm est
