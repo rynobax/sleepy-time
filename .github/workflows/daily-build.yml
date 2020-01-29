@@ -4,7 +4,7 @@ on:
     - cron: '0 19 * * *' # At 1pm est
 jobs:
   build:
-    name: Request Netlify Webhook
+    name: netlify-webhook
     runs-on: ubuntu-latest
     steps:
       - name: Curl request
