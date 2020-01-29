@@ -2,8 +2,7 @@ name: trigger-netlify-build
 
 on:
   schedule:
-#     - cron: '0 19 * * *' # At 1pm est
-  - cron: '15 * * * *'
+  - cron: '0 19 * * *' # At 1pm est
 
 jobs:
   build:
