@@ -88,27 +88,44 @@ async function updateRefreshToken(token) {
   }
 }
 
+const fmtDate = d => d.format("YYYY-MM-DD");
+
+const DAY_INC = 90;
+
 async function getSleepLogs(instance) {
-  const end = moment()
-    .add(1, "day")
-    .format("YYYY-MM-DD");
-  const start = "2019-10-22";
-  try {
-    const { data } = await instance.get(`sleep/date/${start}/${end}.json`);
-    const summaries = data.sleep.map(s => ({
-      date: s.dateOfSleep,
-      summary: s.levels.summary
-    }));
-    if (!fs.existsSync("./src/data")) {
-      fs.mkdirSync("./src/data");
+  // Accumlate logs in <100 day chunks
+  const sleepData = [];
+  const now = moment();
+  for (
+    const start = moment("2019-10-22", "YYYY-MM-DD");
+    start.isBefore(now);
+    start.add(DAY_INC, "days")
+  ) {
+    let end = start.clone().add(DAY_INC - 1, "days");
+    if (end.isAfter(now)) end = now;
+
+    try {
+      const url = `sleep/date/${fmtDate(start)}/${fmtDate(end)}.json`;
+      console.log(url);
+      const { data } = await instance.get(url);
+
+      const summaries = data.sleep.map(s => ({
+        date: s.dateOfSleep,
+        summary: s.levels.summary
+      }));
+
+      sleepData.unshift(...summaries);
+    } catch (err) {
+      console.error(err.response.data);
+      process.exit(1);
     }
-    fs.writeFileSync(
-      "./src/data/sleep.json",
-      JSON.stringify(summaries, null, 2)
-    );
-  } catch (err) {
-    console.error(err.response.data);
   }
+
+  // Write to disk
+  if (!fs.existsSync("./src/data")) {
+    fs.mkdirSync("./src/data");
+  }
+  fs.writeFileSync("./src/data/sleep.json", JSON.stringify(sleepData, null, 2));
 }
 
 async function main() {
